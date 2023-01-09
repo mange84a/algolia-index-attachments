@@ -1,0 +1,17 @@
+{
+  "name": "mange84a/algolia-index-attachments",
+  "homepage": "https://github.com/helsingborg-stad/wpmu-accordion-expand-plus",
+  "description": "Plugin to activate attachments in Algolia Index for Municipio",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "authors": [
+        {
+            "name": "Magnus Andersson",
+            "email": "kontakt@magnus-andersson.nu"
+        }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "composer/installers": "~1.0"
+  }
+}
