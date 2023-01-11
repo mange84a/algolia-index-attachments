@@ -12,6 +12,9 @@
 
 namespace AlgoliaIndexAddAttachmentsToIndex;
 
+use \AlgoliaIndex\Helper\Index as Instance;
+use \AlgoliaIndex\Helper\Id as Id;
+
 class AlgoliaIndexAddAttachmentsToIndex
 {
     public function __construct()
@@ -25,8 +28,32 @@ class AlgoliaIndexAddAttachmentsToIndex
         //Filter mime types?
         add_filter( 'AlgoliaIndex/ShouldIndex', [$this, 'check_attachment_should_index'], 10, 2);
 
+        //Attachments dont trigger save_post, update_post and delete_post
+        
+        //Add delete attachment
+        add_action('delete_attachment', [$this, 'delete_attachment']);
+
+        //Add attachment
+        add_action('add_attachment', [$this, 'add_attachment']);
+        
+        //Update        
+        add_action('attachment_updated', [$this, 'update_attachment'], 1, 3);
+    }
+
+    //@TODO: Check for hook?
+    function delete_attachment($postId) {
+        Instance::getIndex()->deleteObject(Id::getId($postId));
+    }
+     
+    function add_attachment($postId) { 
+        do_action('AlgoliaIndex/IndexPostId', $postId);
     }
     
+    function update_attachment($postId, $before, $after) {
+        do_action('AlgoliaIndex/IndexPostId', $postId);
+    }
+
+
     //Add attachments to the list of indexable posttypes
     function add_attachments_to_algolia_index( $postTypes ) {
         array_push($postTypes, 'attachment');
